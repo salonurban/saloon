@@ -5,53 +5,49 @@ class Offers_model extends CI_Model {
 	public function _consruct(){
 		parent::_construct();
  	}
-function save_offers($data) {
+	
+	function save_offers($data) {
+	  	$shop_id = $data['shop_id'];
+	  	$this->db->where('shop_id', $shop_id);
+	  	$this->db->from('offers');
  
- 
-  $shop_id = $data['shop_id'];
-  $this->db->where('shop_id', $shop_id);
-  $this->db->from('offers');
- 
-  $count = $this->db->count_all_results();
+  		$count = $this->db->count_all_results();
   
-  if($count > 0) {
-   return "Exist";
-  }
-  else {
-   $config['upload_path'] = 'assets/uploads/offers';
-  $config['allowed_types'] = 'gif|jpg|png|jpeg';
-  $config['max_size'] = '1024';
-  //$config['max_width']  = '1024';
-  //$config['max_height']  = '768';
+		if($count > 0) {
+			return "Exist";
+		}
+	  	else {
+		   	$config['upload_path'] = 'assets/uploads/offers';
+			$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		  	$config['max_size'] = '1024';
+  			//$config['max_width']  = '1024';
+  			//$config['max_height']  = '768';
 
-   $this->load->library('upload');
-   $this->upload->initialize($config);
-   if ( ! $this->upload->do_upload('offerspicture')) {
-    //$result = array('error' => $this->upload->display_errors());
+   			$this->load->library('upload');
+   			$this->upload->initialize($config);
+   			if ( ! $this->upload->do_upload('offerspicture')) {
+    			//$result = array('error' => $this->upload->display_errors());
+    			return "imgError";
+   			}
+   			else {
+			    $upload_data = $this->upload->data();
+			    $insert['offer_image'] = $upload_data['file_name']; //base_url().$config['upload_path']."/".
+			    //array_walk($data, "remove_html");
+				$insert['shop_id'] = $data['shop_id'];
+				$insert['offers'] = $data['offers'];
+				// $insert['service_id'] = $data['service_name'];
+				$result = $this->db->insert('offers', $insert); 
     
-    return "imgError";
-   }
-   else {
-    $upload_data = $this->upload->data();
-    $insert['offer_image'] = base_url().$config['upload_path']."/".$upload_data['file_name'];
-    //array_walk($data, "remove_html");
-    
+				if($result) {
+					return "Success";
+				}
+				else {
+					return "Error";
+				}
 
-    $insert['shop_id'] = $data['shop_id'];
-     $insert['offers'] = $data['offers'];
-     $insert['service_id'] = $data['service_name'];
-     $result = $this->db->insert('offers', $insert); 
-    
-     if($result) {
-      return "Success";
-     }
-     else {
-      return "Error";
-     }
-
-    //$result = array('upload_data' => $this->upload->data());
-   }
-  }
+    			//$result = array('upload_data' => $this->upload->data());
+   			}
+  		}
 
   
  }
@@ -82,9 +78,8 @@ function save_offers($data) {
 	      }
 	}
 	
-  function get_offers() {
-
-         $this->db->select('ss.shop_name,  ms.id,ms.offers');
+  	function get_offers() {
+        $this->db->select('ss.shop_name,  ms.id,ms.offers,ms.offer_image');
 		$this->db->from('shop_details as ss');
 		$this->db->join('offers as ms', 'ms.shop_id = ss.id'); 
 		$menu = $this->session->userdata('admin');

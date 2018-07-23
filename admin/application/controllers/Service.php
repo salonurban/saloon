@@ -43,17 +43,26 @@ class Service extends CI_Controller {
 		$template['page'] = 'Shops/add-category';
 		$template['page_title'] = "Add Service category";
 		if($_POST) {
-				$data = $_POST;
-				unset($data['submit']);
-				
-				$result = $this->service_model->save_service_category($data);
-				$this->session->set_flashdata('message', array('message' => 'Service Saved successfully','class' => 'success'));
-				redirect(base_url().'service/add_category');
-			}
-			else {
-				$template['parent_ctegories'] = $this->service_model->get_service_parents_categories(array('parent_category'=>0));
-				$this->load->view('template', $template);
-			}
+			$data = $_POST;
+			unset($data['submit']);
+			
+			$result = $this->service_model->save_service_category($data);
+			if($result == "Error") {
+     			$this->session->set_flashdata('message', array('message' => 'Sorry, something went to wrong. Please try again','class' => 'danger'));
+    		}
+    		elseif($result == "imgError") {
+     			$this->session->set_flashdata('message', array('message' => 'Error Occured While Uploading Files. png,jpg,jpeg,gif file types only allowed and image size shold be less than or equal to 1mb','class' => 'danger'));
+    		}
+    		else {
+     			$this->session->set_flashdata('message', array('message' => 'Service Category Saved successfully','class' => 'success'));
+   			}
+			
+			redirect(base_url().'service/add_category');
+		}
+		else {
+			$template['parent_ctegories'] = $this->service_model->get_service_parents_categories(array('parent_category'=>0));
+			$this->load->view('template', $template);
+		}
 	}
 	public function view_category(){
 

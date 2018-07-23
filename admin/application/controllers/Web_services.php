@@ -398,15 +398,15 @@ public function getsingleshop_post(){
 				$this->load->model('web_services/testimonials_model');
 				$this->load->model('web_services/whats_new_model');
 				$this->load->model('locations_model');
+				$this->load->model('offers_model');
 
-				$post['services'] = $this->shop_model->get_services()->get_all();
+				$post['services'] = $this->shop_model->get_services_categories(array('parent_category'=>0))->get_all();
 				$post['cycle_slider'] = $this->shop_model->get_cycle_slider()->get_all();
 				$post['testimonials'] = $this->testimonials_model->get_all();
 				$post['whats_new'] = $this->whats_new_model->get_whats_new()->get_all();
 				$post['cities_list'] = $this->locations_model->get_locations('city');
 				$post['locations_list'] = $this->locations_model->get_locations('location');
-				
-				//$post['query'] = $this->db->last_query();								 
+				$post['offers_list'] = $this->offers_model->get_offers();		 
 				
 				$this->response( $post );
 		}

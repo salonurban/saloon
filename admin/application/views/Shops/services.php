@@ -57,7 +57,7 @@ if($this->session->flashdata('message')) {
                     </div>
                     <div class="form-group ">
                         <label class="control-label" for="serviceicon">Select Icon</label>
-                        <input type="file" name="service_icon"/>
+                        <input type="file" class="required" name="service_icon"/>
                     </div>
                     <button type="submit" class="btn btn-custom"><i class="glyphicon glyphicon-plus"></i> Add Service</button>
                 </form>

@@ -170,6 +170,19 @@
 /* Get All Shop Serices
 ########################################################
 --------------------------------------------------------*/		
+		public function get_services_categories($where){
+			if ($where) {
+				$this->db->where($where);
+			}
+			$this->db->select('sc.id as id,
+			  				   sc.category_name,
+			  				   sc.service_icon'
+							 );
+			$this->db->from("service_category as sc");
+			$this->db->group_by("sc.id");
+   
+			return $this;
+		}	
 		public function get_services(){
 				
 				$this->db->select('ms.id as id,

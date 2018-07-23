@@ -41,6 +41,38 @@ class Service_model extends CI_Model {
    		}	
     	
 	}
+
+	function save_service_category($data) {
+		$config['upload_path'] = 'assets/uploads';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['max_size'] = '1024';
+		//$config['max_width']  = '1024';
+		//$config['max_height']  = '768';
+
+   		$this->load->library('upload');
+   		$this->upload->initialize($config);
+   		if ( !empty($_FILES['service_icon']['name']) && ! $this->upload->do_upload('service_icon')) {
+    		//$result = array('error' => $this->upload->display_errors());
+    		return "imgError";
+	   	}
+	   	else {
+	   		if(!empty($_FILES['service_icon']['name'])){
+				$upload_data = $this->upload->data();
+				$insert['service_icon'] = $upload_data['file_name'];
+			}
+			$insert['category_name'] = $data['category_name'];
+			$insert['parent_category'] = $data['parent_category'];
+	     	$insert['status'] = 1;
+	     	$result = $this->db->insert('service_category', $insert); 
+	     	if($result) {
+	     		return "Success";
+	     	}
+	     	else {
+	      		return "Error";
+	     	}
+   		}	
+		
+	}
 	function save_subservice($data) {
 		 $insert['service_id'] = $data['service_name'];
 		 $insert['sub_service_name'] = $data['sub_cat_name'];
@@ -93,30 +125,8 @@ class Service_model extends CI_Model {
 		$result = $query->row();
 		return $result;
 	}
-	// function get_service_all_categories($where) {
-	// 	if($where){
-	// 		$this->db->where($where);
-	// 	}
-	// 	// $query = $this->db->query("select p.id as id, p.title as title, c.title as category, c.id as catid
-	// 	// 							from products p JOIN
-	// 	// 							(select * from category where id = 1 OR parent = 1) c
-	// 	// 							on p.cat = c.id");
-	// 	$result = $query->result();
-	// 	return $result;
-	// }
+	
 
-	function save_service_category($data) {
-		$insert['category_name'] = $data['category_name'];
-		$insert['parent_category'] = $data['parent_category'];
-     	$insert['status'] = 1;
-     	$result = $this->db->insert('service_category', $insert); 
-     	if($result) {
-     		return "Success";
-     	}
-     	else {
-      		return "Error";
-     	}
-	}
 	// ========================= /end get,save service categories
 
 	function get_service() {

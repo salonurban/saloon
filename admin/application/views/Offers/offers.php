@@ -31,20 +31,18 @@ if($this->session->flashdata('message')) {
                         <select id="selectError" class="col-md-3 select_fileds" data-rel="chosen" name="shop_id">
                             <?php
 							foreach($shops as $shop) {
-							
-							echo "<option value='".$shop->id."'>".$shop->shop_name."</option>";
-							
-							                         }
+                                echo "<option value='".$shop->id."'>".$shop->shop_name."</option>";
+							}
 							?>
                         </select>
                     	</div>
                     </div>
                      
                     <div class="form-group ">
-                        <label class="control-label" for="shopimage">Select Images</label>
-                        <input type="file" name="offerspicture"/>
+                        <label class="control-label" for="shopimage">Select Image</label>
+                        <input type="file" class="required" name="offerspicture"/>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="control-label" for="offers">Select Services</label>
                         <div class="controls sscat">
                             <select id="selectError" class="col-md-3" data-rel="chosen" name="service_name">
@@ -56,7 +54,7 @@ if($this->session->flashdata('message')) {
                                 ?>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                      <div class="form-group">
                         <label class="control-label" for="offers">Offers</label>
                         <input type="text" name="offers" class="form-control required" placeholder="Enter Offer">
@@ -93,20 +91,18 @@ if($this->session->flashdata('message')) {
     <tr>
         <th>Shop Name</th>
         <th>Offer</th>
+        <th>Offer Image</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <?php
-   
 	foreach($data as $offers)  {
-		
-				 
 	?>
     <tr>
         <td><?php echo $offers->shop_name; ?></td>
         <td class="center"><?php echo $offers->offers; ?></td>
-        
+        <td class="center"><img src="<?php echo base_url('assets/uploads/offers').$offers->offers; ?>"></td>
         <td class="center">
             <a class="btn btn-info btn-sm" href="<?php echo base_url(); ?>offers/edit_offers/<?php echo $offers->id; ?>">
                 <i class="glyphicon glyphicon-edit icon-white"></i>

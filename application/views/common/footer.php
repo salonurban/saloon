@@ -9,6 +9,14 @@
   <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
 <!-- enllax js (for parllax) -->
+<!--js for price range->
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+  <script src="<?php echo base_url(); ?>assets/js/jquery-1.12.4-for-pricrang.js"></script>
+  <script src="<?php echo base_url(); ?>assets/js/jquery-ui-for-pricrang.js"></script>
+<!--js for price range end-->  
+  
   <script src="<?php echo base_url(); ?>assets/js/jquery.enllax.min.js"></script>
    <script src="<?php echo base_url(); ?>assets/js/SmoothScroll.min.js"></script>    
     <script src="<?php echo base_url(); ?>assets/js/jquery.enllax.min.js"></script>
@@ -16,6 +24,15 @@
     <script src="<?php echo base_url(); ?>assets/js/owl.carousel.js"></script>
     <script>
 	$(document).ready(function() {
+		function toggleIcon(e) {
+			$(e.target)
+				.prev('.panel-heading')
+				.find(".more-less")
+				.toggleClass('glyphicon-plus glyphicon-minus');
+		}
+		$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+		$('.panel-group').on('shown.bs.collapse', toggleIcon);
+
 		$("#offers").owlCarousel({ 
 			// Most important owl features
 			items : 2,
@@ -83,7 +100,8 @@
 			afterAction: false,
 			startDragging : false
 		 
-		});$("#recentproducts").owlCarousel({ 
+		});
+		$("#recentproducts").owlCarousel({ 
 			// Most important owl features
 			items : 3,
 			itemsDesktop : [1199,3],
@@ -150,7 +168,8 @@
 			afterAction: false,
 			startDragging : false
 		 
-		});$("#mygossip").owlCarousel({ 
+		});
+		$("#mygossip").owlCarousel({ 
 			// Most important owl features
 			items : 1,
 			itemsDesktop : [1199,1],
@@ -218,6 +237,144 @@
 			startDragging : false
 		 
 		});
+		
+		$("#salonofrsslid").owlCarousel({ 
+			// Most important owl features
+			items : 1,
+			itemsDesktop : [1199,1],
+			itemsDesktopSmall : [980,1],
+			itemsTablet: [768,1],
+			itemsTabletSmall: false,
+			itemsMobile : [479,1],
+			singleItem : false,
+		 
+			//Basic Speeds
+			slideSpeed : 200,
+			paginationSpeed : 800,
+			rewindSpeed : 1000,
+		 
+			//Autoplay
+			autoPlay : true,
+			stopOnHover : false,
+		 
+			// Navigation
+			navigation : false,
+			navigationText : ["prev","next"],
+			rewindNav : true,
+			scrollPerPage : false,
+		 
+			//Pagination
+			pagination : false,
+			paginationNumbers: false,
+		 
+			// Responsive 
+			responsive: true,
+			responsiveRefreshRate : 200,
+			responsiveBaseWidth: window,
+		 
+			// CSS Styles
+			baseClass : "owl-carousel",
+			theme : "owl-theme",
+		 
+			//Lazy load
+			lazyLoad : false,
+			lazyFollow : true,
+		 
+			//Auto height
+			autoHeight : false,
+		 
+			//JSON 
+			jsonPath : false, 
+			jsonSuccess : false,
+		 
+			//Mouse Events
+			mouseDrag : true,
+			touchDrag : true,
+		 
+			//Transitions
+			transitionStyle : false,
+		 
+			// Other
+			addClassActive : false,
+		 
+			//Callbacks
+			beforeInit: false, 
+			afterInit: false, 
+			beforeMove: false, 
+			afterMove: false,
+			afterAction: false,
+			startDragging : false
+		 
+		});
+		$("#salongallerybannerslid").owlCarousel({ 
+			// Most important owl features
+			items : 1,
+			itemsDesktop : [1199,1],
+			itemsDesktopSmall : [980,1],
+			itemsTablet: [768,1],
+			itemsTabletSmall: false,
+			itemsMobile : [479,1],
+			singleItem : false,
+		 
+			//Basic Speeds
+			slideSpeed : 200,
+			paginationSpeed : 800,
+			rewindSpeed : 1000,
+		 
+			//Autoplay
+			autoPlay : true,
+			stopOnHover : false,
+		 
+			// Navigation
+			navigation : false,
+			navigationText : ["prev","next"],
+			rewindNav : true,
+			scrollPerPage : false,
+		 
+			//Pagination
+			pagination : false,
+			paginationNumbers: false,
+		 
+			// Responsive 
+			responsive: true,
+			responsiveRefreshRate : 200,
+			responsiveBaseWidth: window,
+		 
+			// CSS Styles
+			baseClass : "owl-carousel",
+			theme : "owl-theme",
+		 
+			//Lazy load
+			lazyLoad : false,
+			lazyFollow : true,
+		 
+			//Auto height
+			autoHeight : false,
+		 
+			//JSON 
+			jsonPath : false, 
+			jsonSuccess : false,
+		 
+			//Mouse Events
+			mouseDrag : true,
+			touchDrag : true,
+		 
+			//Transitions
+			transitionStyle : false,
+		 
+			// Other
+			addClassActive : false,
+		 
+			//Callbacks
+			beforeInit: false, 
+			afterInit: false, 
+			beforeMove: false, 
+			afterMove: false,
+			afterAction: false,
+			startDragging : false
+		 
+		});
+		
 		new WOW().init();
         (function($){
             
@@ -551,7 +708,24 @@ $( document ).ready(function() {
   });
 });
 // heart rating end
+
+
 	});
     </script>
+	<script>
+  $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 500,
+      values: [ 75, 300 ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "BHD " + ui.values[ 0 ] + " - BHD " + ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "BHD " + $( "#slider-range" ).slider( "values", 0 ) +
+      " - BHD " + $( "#slider-range" ).slider( "values", 1 ) );
+  } );
+  </script>
 </body>
 </html>

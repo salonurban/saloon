@@ -34,7 +34,6 @@ class Staff extends CI_Controller {
   		$template['service'] = $this->service_model->get_service();  
 
 	    if($_POST) {
-
 			$data = $_POST;
 			unset($data['submit']);
 			
@@ -105,10 +104,21 @@ class Staff extends CI_Controller {
   	public function view_staff() {
 		$template['page'] = 'Staff/view-staff';
 		$template['page_title'] = "View Staff";
-		$userId = $this->session->userdata('id');
-		$template['data'] = $this->staff_model->get_joint_staff(array('staffs.owner_id'=>$userId));
+		// echo "user_type".$this->session->userdata('admin')."<br/>"; 
+		// echo "user id".$this->session->userdata('id')."<br/>"; 
+		// echo "user name".$this->session->userdata('id')."<br/>"; 
+		// die;
+		if($this->session->userdata('admin')==1){
+			$template['data'] = $this->staff_model->get_joint_staff(NULL);
+		}
+		else{
+			$userId = $this->session->userdata('id');
+			$template['data'] = $this->staff_model->get_joint_staff(array('staffs.owner_id'=>$userId));
+		}
+		
 		$this->load->view('template',$template);
 	}
+
 	public function view_single_staff() {
 		$id = $_POST['id'];
 		$template['data'] = $this->customer_model->get_single_customer($id);
